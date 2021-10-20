@@ -21,7 +21,9 @@ jobs:
    script:
     - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_COVERAGE=1
     - make -C build all test
-    - gcovr 
+    - curl -Os https://uploader.codecov.io/latest/linux/codecov
+    - chmod +x codecov
+    - ./codecov -f <(gcovr -x)
 # - stage: Sanitaize
 #   script:
 #    - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_SANITIZERS=1

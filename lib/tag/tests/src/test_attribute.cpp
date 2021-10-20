@@ -95,3 +95,9 @@ TEST(clear_attribute, clear_attribute) {
   EXPECT_EQ(attribute.name, (void*)NULL);
   EXPECT_EQ(attribute.value, (void*)NULL);
 }
+
+TEST(clear_attribute, clear_attribute_null) {
+  attribute_t* attribute = NULL;
+  clear_attribute(attribute);
+}
+
