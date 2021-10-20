@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #include "attribute.h"
-#include "error.h"
+#include "errors.h"
 
 typedef struct {
     char* name;

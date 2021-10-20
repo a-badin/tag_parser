@@ -6,7 +6,6 @@
 
 #include "utils.h"
 #include "attribute.h"
-#include "error.h"
 
 void init_tag(tag_t* tag)
 {
@@ -31,7 +30,7 @@ void clear_tag(tag_t* tag)
         return;
 
     for(int i = 0; i < tag->attributes_count; ++i) {
-        clear_attribute(&tag->attributes[i]);
+        //clear_attribute(&tag->attributes[i]);
     }
     free(tag->attributes);
 }
@@ -49,7 +48,7 @@ error_t add_tag_attribute(tag_t* tag, const attribute_t* attribute)
         return ERROR_NULL_PTR_REFERENCE;
 
     int size = tag->attributes_count; 
-    attribute_t* buf = realloc(tag->attributes, sizeof(attribute_t) * size * 2 + 1);
+    attribute_t* buf = realloc(tag->attributes, sizeof(attribute_t) * (size + 1));
     if(buf == NULL)
         return ERROR_MEMORY_ALLOCATION_ERROR;
 

@@ -28,7 +28,7 @@ TEST(create_free_tag, create_free_tag) {
   EXPECT_EQ(tag, (void*)NULL);
 }
 
-TEST(add_attribute, add_attribute) {
+TEST(add_tag_attribute, add_tag_attribute) {
   tag_t tag = {};
   attribute_t attribute = {};
   set_attribute_name(&attribute, "name");
@@ -41,7 +41,7 @@ TEST(add_attribute, add_attribute) {
   EXPECT_EQ(strcmp(tag.attributes[0].value, "value"), 0);
 }
 
-TEST(add_attribute, add_attribute_null_tag) {
+TEST(add_tag_attribute, add_tag_attribute_null_tag) {
   tag_t* tag = NULL;
   attribute_t attribute = {};
   set_attribute_name(&attribute, "name");
@@ -51,7 +51,7 @@ TEST(add_attribute, add_attribute_null_tag) {
   EXPECT_EQ(result, ERROR_NULL_PTR_REFERENCE);
 }
 
-TEST(add_attribute, add_attribute_null_attribute) {
+TEST(add_tag_attribute, add_tag_attribute_null_attribute) {
   tag_t tag = {};
   attribute_t* attribute = NULL;
   error_t result = add_tag_attribute(&tag, attribute);

@@ -1,2 +1,2 @@
-add_library(lib_tag_parser src/utils.c)
-target_include_directories(lib_tag_parser PUBLIC include)
+add_library(utils src/utils.c)
+target_include_directories(utils PUBLIC include)

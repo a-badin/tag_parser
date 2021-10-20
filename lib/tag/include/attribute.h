@@ -1,6 +1,6 @@
 #ifndef ATTRIBUTE_H
 #define ATTRIBUTE_H
-#include "error.h"
+#include "errors.h"
 
 typedef struct {
     char* name;
