@@ -34,7 +34,7 @@ TEST(add_tag_attribute, add_tag_attribute) {
   set_attribute_name(&attribute, "name");
   set_attribute_value(&attribute, "value");
 
-  error_t result = add_tag_attribute(&tag, &attribute);
+  tag_error_t result = add_tag_attribute(&tag, &attribute);
   EXPECT_EQ(result, ERROR_OK);
   EXPECT_EQ(tag.attributes_count, 1);
   EXPECT_EQ(strcmp(tag.attributes[0].name, "name"), 0);
@@ -49,7 +49,7 @@ TEST(add_tag_attribute, add_tag_attribute_null_tag) {
   set_attribute_name(&attribute, "name");
   set_attribute_value(&attribute, "value");
 
-  error_t result = add_tag_attribute(tag, &attribute);
+  tag_error_t result = add_tag_attribute(tag, &attribute);
   EXPECT_EQ(result, ERROR_NULL_PTR_REFERENCE);
   clear_attribute(&attribute);
 }
@@ -57,13 +57,13 @@ TEST(add_tag_attribute, add_tag_attribute_null_tag) {
 TEST(add_tag_attribute, add_tag_attribute_null_attribute) {
   tag_t tag = {};
   attribute_t* attribute = NULL;
-  error_t result = add_tag_attribute(&tag, attribute);
+  tag_error_t result = add_tag_attribute(&tag, attribute);
   EXPECT_EQ(result, ERROR_NULL_PTR_REFERENCE);
 }
 
 TEST(set_tag_name, set_tag_name) {
   tag_t tag = {};
-  error_t result = set_tag_name(&tag, "name");
+  tag_error_t result = set_tag_name(&tag, "name");
   EXPECT_EQ(strcmp(tag.name, "name"), 0);
   clear_tag(&tag);
 }

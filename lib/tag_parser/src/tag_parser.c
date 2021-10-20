@@ -8,7 +8,7 @@
 
 #include "utils.h"
 
-//error_t copy_string(char** dest, const char* src, unsigned long size);
+//tag_error_t copy_string(char** dest, const char* src, unsigned long size);
 
 typedef enum {
   PARSER_STATE_TAG_START,
@@ -83,7 +83,7 @@ parser_state_t parse_attribute_value(char c)
     return PARSER_STATE_TAG_ATTRIBUTE_VALUE;
 }
 
-error_t parse_tag_from_string(const char* str, tag_t* tag)
+tag_error_t parse_tag_from_string(const char* str, tag_t* tag)
 {
     if(str == NULL || tag == NULL)
         return ERROR_NULL_PTR_REFERENCE;

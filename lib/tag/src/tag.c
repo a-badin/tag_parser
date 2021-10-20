@@ -46,7 +46,7 @@ tag_t* free_tag(tag_t* tag)
     return NULL;
 }
 
-error_t add_tag_attribute(tag_t* tag, const attribute_t* attribute)
+tag_error_t add_tag_attribute(tag_t* tag, const attribute_t* attribute)
 {
     if(tag == NULL || attribute == NULL)
         return ERROR_NULL_PTR_REFERENCE;
@@ -65,7 +65,7 @@ error_t add_tag_attribute(tag_t* tag, const attribute_t* attribute)
     return ERROR_OK;
 }
 
-error_t set_tag_name(tag_t* tag, const char* name)
+tag_error_t set_tag_name(tag_t* tag, const char* name)
 {
     if(tag == NULL || name == NULL)
         return ERROR_NULL_PTR_REFERENCE;

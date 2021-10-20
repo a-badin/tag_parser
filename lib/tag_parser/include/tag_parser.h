@@ -3,6 +3,6 @@
 
 #include "tag.h"
 
-error_t parse_tag_from_string(const char* str, tag_t* tag);
+tag_error_t parse_tag_from_string(const char* str, tag_t* tag);
 
 #endif // TAG_PARSER_H

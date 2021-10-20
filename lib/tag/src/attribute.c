@@ -25,6 +25,7 @@ void clear_attribute(attribute_t* attribute)
 {
     if(attribute == NULL)
         return;
+
     free(attribute->name);
     attribute->name = NULL;
     free(attribute->value);
@@ -38,7 +39,7 @@ attribute_t* free_attribute(attribute_t* attribute)
     return NULL;
 }
 
-error_t set_attribute_name(attribute_t* attribute, const char* name)
+tag_error_t set_attribute_name(attribute_t* attribute, const char* name)
 {
     if(attribute == NULL)
         return ERROR_NULL_PTR_REFERENCE;
@@ -46,7 +47,7 @@ error_t set_attribute_name(attribute_t* attribute, const char* name)
     return copy_string(&attribute->name, name, strlen(name));
 }
 
-error_t set_attribute_value(attribute_t* attribute, const char* value)
+tag_error_t set_attribute_value(attribute_t* attribute, const char* value)
 {
     if(attribute == NULL)
         return ERROR_NULL_PTR_REFERENCE;

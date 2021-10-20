@@ -29,7 +29,7 @@ TEST(create_free_attribute, create_free_attribute) {
 TEST(set_attribute_name, set_attribute_name) {
   attribute_t attribute = {};
   const char* name = "name";
-  error_t result = set_attribute_name(&attribute, name);
+  tag_error_t result = set_attribute_name(&attribute, name);
   EXPECT_EQ(result, ERROR_OK);
   EXPECT_NE(attribute.name, name);
   EXPECT_EQ(strcmp(name, attribute.name), 0);
@@ -38,14 +38,14 @@ TEST(set_attribute_name, set_attribute_name) {
 
 TEST(set_attribute_name, set_attribute_name_null) {
   attribute_t* attribute = NULL;
-  error_t result = set_attribute_name(attribute, "name");
+  tag_error_t result = set_attribute_name(attribute, "name");
   EXPECT_EQ(result, ERROR_NULL_PTR_REFERENCE);
 }
 
 TEST(set_attribute_name, set_attribute_name_empty) {
   attribute_t attribute = {};
   const char* name = "";
-  error_t result = set_attribute_name(&attribute, name);
+  tag_error_t result = set_attribute_name(&attribute, name);
   EXPECT_EQ(result, ERROR_OK);
   EXPECT_NE(attribute.name, name);
   EXPECT_EQ(strcmp(name, attribute.name), 0);
@@ -55,7 +55,7 @@ TEST(set_attribute_name, set_attribute_name_empty) {
 TEST(set_attribute_value, set_attribute_value) {
   attribute_t attribute = {};
   const char* value = "value";
-  error_t result = set_attribute_value(&attribute, value);
+  tag_error_t result = set_attribute_value(&attribute, value);
   EXPECT_EQ(result, ERROR_OK);
   EXPECT_NE(attribute.value, value);
   EXPECT_EQ(strcmp(value, attribute.value), 0);
@@ -65,7 +65,7 @@ TEST(set_attribute_value, set_attribute_value) {
 TEST(set_attribute_value, set_attribute_value_empty) {
   attribute_t attribute = {};
   const char* value = "";
-  error_t result = set_attribute_value(&attribute, value);
+  tag_error_t result = set_attribute_value(&attribute, value);
   EXPECT_EQ(result, ERROR_OK);
   EXPECT_NE(attribute.value, value);
   EXPECT_EQ(strcmp(value, attribute.value), 0);
@@ -74,7 +74,7 @@ TEST(set_attribute_value, set_attribute_value_empty) {
 
 TEST(set_attribute_value, set_attribute_value_null) {
   attribute_t* attribute = NULL;
-  error_t result = set_attribute_value(attribute, "value");
+  tag_error_t result = set_attribute_value(attribute, "value");
   EXPECT_EQ(result, ERROR_NULL_PTR_REFERENCE);
 }
 

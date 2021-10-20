@@ -7,6 +7,6 @@ typedef enum {
     ERROR_MEMORY_ALLOCATION_ERROR,
     ERROR_EMPTY_STRING,
     ERROR_PARSING_TAG
-} error_t;
+} tag_error_t;
 
 #endif // UTILS_H

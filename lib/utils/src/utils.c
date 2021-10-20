@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-error_t copy_string(char** dest, const char* src, unsigned long size)
+tag_error_t copy_string(char** dest, const char* src, unsigned long size)
 {
     if(src == NULL || dest == NULL)
         return ERROR_NULL_PTR_REFERENCE;

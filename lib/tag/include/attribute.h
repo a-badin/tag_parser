@@ -13,7 +13,7 @@ attribute_t* free_attribute(attribute_t* attribute);
 
 void clear_attribute(attribute_t* attribute);
 
-error_t set_attribute_name(attribute_t* attribute, const char* name);
-error_t set_attribute_value(attribute_t* attribute, const char* value);
+tag_error_t set_attribute_name(attribute_t* attribute, const char* name);
+tag_error_t set_attribute_value(attribute_t* attribute, const char* value);
 
 #endif // ATTRIBUTE_H

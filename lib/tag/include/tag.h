@@ -19,8 +19,8 @@ tag_t* create_tag();
 tag_t* free_tag(tag_t* tag);
 void clear_tag(tag_t* tag);
 
-error_t set_tag_name(tag_t* tag, const char* name);
-error_t add_tag_attribute(tag_t* tag, const attribute_t* attribute);
+tag_error_t set_tag_name(tag_t* tag, const char* name);
+tag_error_t add_tag_attribute(tag_t* tag, const attribute_t* attribute);
 
 
 #endif // TAG_H
