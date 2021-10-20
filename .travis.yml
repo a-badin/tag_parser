@@ -27,4 +27,4 @@ jobs:
    script:
     - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_SANITIZERS=1
     - make -C build
-    - cd build && ctests --output-on-failure
+    - cd build && ctest --output-on-failure
