@@ -33,6 +33,7 @@ TEST(set_attribute_name, set_attribute_name) {
   EXPECT_EQ(result, ERROR_OK);
   EXPECT_NE(attribute.name, name);
   EXPECT_EQ(strcmp(name, attribute.name), 0);
+  clear_attribute(&attribute);
 }
 
 TEST(set_attribute_name, set_attribute_name_null) {
@@ -48,6 +49,7 @@ TEST(set_attribute_name, set_attribute_name_empty) {
   EXPECT_EQ(result, ERROR_OK);
   EXPECT_NE(attribute.name, name);
   EXPECT_EQ(strcmp(name, attribute.name), 0);
+  clear_attribute(&attribute);
 }
 
 TEST(set_attribute_value, set_attribute_value) {
@@ -57,6 +59,7 @@ TEST(set_attribute_value, set_attribute_value) {
   EXPECT_EQ(result, ERROR_OK);
   EXPECT_NE(attribute.value, value);
   EXPECT_EQ(strcmp(value, attribute.value), 0);
+  clear_attribute(&attribute);
 }
 
 TEST(set_attribute_value, set_attribute_value_empty) {
@@ -66,6 +69,7 @@ TEST(set_attribute_value, set_attribute_value_empty) {
   EXPECT_EQ(result, ERROR_OK);
   EXPECT_NE(attribute.value, value);
   EXPECT_EQ(strcmp(value, attribute.value), 0);
+  clear_attribute(&attribute);
 }
 
 TEST(set_attribute_value, set_attribute_value_null) {

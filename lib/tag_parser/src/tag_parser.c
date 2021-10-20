@@ -143,9 +143,11 @@ error_t parse_tag_from_string(const char* str, tag_t* tag)
             default:;
         }
         if(state == PARSER_STATE_ERROR) {
+            free(str_buffer);
             return ERROR_PARSING_TAG;
         }
     }
 
+    free(str_buffer);
     return ERROR_OK;
 }

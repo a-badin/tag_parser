@@ -30,9 +30,13 @@ void clear_tag(tag_t* tag)
         return;
 
     for(int i = 0; i < tag->attributes_count; ++i) {
-        //clear_attribute(&tag->attributes[i]);
+        clear_attribute(&tag->attributes[i]);
     }
     free(tag->attributes);
+    tag->attributes = NULL;
+
+    free(tag->name);
+    tag->name = NULL;
 }
 
 tag_t* free_tag(tag_t* tag)
