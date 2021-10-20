@@ -5,7 +5,6 @@ language: cpp
 install:
  - sudo apt-get update
  - sudo apt-get install --yes libgtest-dev
- - sudo apt-get install --yes cmake
  - sudo apt-get install --yes gcovr
 jobs:
  - stage: Build
@@ -16,7 +15,7 @@ jobs:
    script:
     - cmake -B build -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=1
     - make -C build
-    - ctest --test-dir build --output-on-failure
+    - cd build && ctest --output-on-failure
  - stage: TestCoverage
    script:
     - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_COVERAGE=1
@@ -28,4 +27,4 @@ jobs:
    script:
     - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_SANITIZERS=1
     - make -C build
-    - ctests --test-dir build --output-on-failure
+    - cd build && ctests --output-on-failure
