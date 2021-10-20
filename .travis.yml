@@ -8,15 +8,15 @@ install:
  - sudo apt-get install --yes cmake
  - sudo apt-get install --yes gcovr
 jobs:
-# - stage: Build
-#   script:
-#    - cmake -B build -DCMAKE_BUILD_TYPE=Release
-#    - make -C build
-# - stage: Test
-#   script:
-#    - cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=1
-#    - make -C build
-#    - ctest --test-dir build --output-on-failure
+ - stage: Build
+   script:
+    - cmake -B build -DCMAKE_BUILD_TYPE=Release
+    - make -C build
+ - stage: Test
+   script:
+    - cmake -B build -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=1
+    - make -C build
+    - ctest --test-dir build --output-on-failure
  - stage: TestCoverage
    script:
     - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_COVERAGE=1
@@ -24,8 +24,8 @@ jobs:
     - curl -Os https://uploader.codecov.io/latest/linux/codecov
     - chmod +x codecov
     - ./codecov -f <(gcovr -x)
-# - stage: Sanitaize
-#   script:
-#    - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_SANITIZERS=1
-#    - make -C build
-#    - ctests --test-dir build --output-on-failure
+ - stage: Sanitaize
+   script:
+    - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_SANITIZERS=1
+    - make -C build
+    - ctests --test-dir build --output-on-failure
