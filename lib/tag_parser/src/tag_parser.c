@@ -8,8 +8,6 @@
 
 #include "utils.h"
 
-//tag_error_t copy_string(char** dest, const char* src, unsigned long size);
-
 typedef enum {
   PARSER_STATE_TAG_START,
   PARSER_STATE_TAG_OPEN_CLOSE,
@@ -22,14 +20,23 @@ typedef enum {
   PARSER_STATE_ERROR
 } parser_state_t;
 
-parser_state_t parse_start(char c)
+static parser_state_t parse_start(char c)
 {
     if(c != '<')
         return PARSER_STATE_ERROR;
     return PARSER_STATE_TAG_OPEN_CLOSE;
 }
 
-parser_state_t parse_open_close(char c, unsigned long* pos, bool* is_closed_tag)
+static int is_alpha_num(char c)
+{
+  int is_alpha = 'a' <= c && c <= 'z';
+  int is_caps_alpha = 'A' <= c && c <= 'Z';
+  int is_num = '0' <= c && c <= '9';
+
+  return is_alpha || is_caps_alpha || is_num;
+}
+
+static parser_state_t parse_open_close(char c, unsigned long* pos, bool* is_closed_tag)
 {
     if(c == '/')
         *is_closed_tag = true;
@@ -39,15 +46,15 @@ parser_state_t parse_open_close(char c, unsigned long* pos, bool* is_closed_tag)
     return PARSER_STATE_TAG_NAME;
 }
 
-parser_state_t parse_tag_name(char c)
+static parser_state_t parse_tag_name(char c)
 {
-    if('a' <= c && c <= 'z' || '0' <= c && c <= '9' || c == '-')
+    if(is_alpha_num(c))
         return PARSER_STATE_TAG_NAME;
 
     return PARSER_STATE_TAG_END_OR_ATTRIBUTE;
 }
 
-parser_state_t parse_end_or_attribute(char c)
+static parser_state_t parse_end_or_attribute(char c)
 {
     if(c == ' ') {
         return PARSER_STATE_TAG_ATTRIBUTE_NAME;
@@ -57,9 +64,9 @@ parser_state_t parse_end_or_attribute(char c)
     return PARSER_STATE_ERROR;
 }
 
-parser_state_t parse_attribute_name(char c)
+static parser_state_t parse_attribute_name(char c)
 {
-    if('a' <= c && c <= 'z' || '0' <= c && c <= '9' || c == '-')
+    if(is_alpha_num(c))
         return PARSER_STATE_TAG_ATTRIBUTE_NAME;
     else if (c == '=')
         return PARSER_STATE_TAG_ATTRIBUTE_VALUE_START;
@@ -67,7 +74,7 @@ parser_state_t parse_attribute_name(char c)
     return PARSER_STATE_ERROR;
 }
 
-parser_state_t parse_attribute_value_start(char c)
+static parser_state_t parse_attribute_value_start(char c)
 {
     if(c == '"')
         return PARSER_STATE_TAG_ATTRIBUTE_VALUE;
@@ -75,7 +82,7 @@ parser_state_t parse_attribute_value_start(char c)
     return PARSER_STATE_ERROR;
 }
 
-parser_state_t parse_attribute_value(char c)
+static parser_state_t parse_attribute_value(char c)
 {
     if(c == '"')
         return PARSER_STATE_TAG_END_OR_ATTRIBUTE;
@@ -96,7 +103,9 @@ tag_error_t parse_tag_from_string(const char* str, tag_t* tag)
 
     parser_state_t state = PARSER_STATE_TAG_START;
 
-    attribute_t tmp_attribute = {};
+    attribute_t tmp_attribute;
+    init_attribute(&tmp_attribute);
+
     char* str_buffer = NULL;
 
     unsigned long buf_start = 0;
@@ -126,8 +135,10 @@ tag_error_t parse_tag_from_string(const char* str, tag_t* tag)
                 break;
             case PARSER_STATE_TAG_ATTRIBUTE_NAME:
                 state = parse_attribute_name(cur_char);
-                if(state == PARSER_STATE_TAG_ATTRIBUTE_VALUE_START)
-                    copy_string(&tmp_attribute.name, str + buf_start, i - buf_start);
+                if(state == PARSER_STATE_TAG_ATTRIBUTE_VALUE_START) {
+                    copy_string(&str_buffer, str + buf_start, i - buf_start);
+                    set_attribute_name(&tmp_attribute, str_buffer);
+                }
                 break;
             case PARSER_STATE_TAG_ATTRIBUTE_VALUE_START:
                 state = parse_attribute_value_start(cur_char);
@@ -136,7 +147,8 @@ tag_error_t parse_tag_from_string(const char* str, tag_t* tag)
             case PARSER_STATE_TAG_ATTRIBUTE_VALUE:
                 state = parse_attribute_value(cur_char);
                 if(state == PARSER_STATE_TAG_END_OR_ATTRIBUTE) {
-                    copy_string(&tmp_attribute.value, str + buf_start, i - buf_start);
+                    copy_string(&str_buffer, str + buf_start, i - buf_start);
+                    set_attribute_value(&tmp_attribute, str_buffer);
                     add_tag_attribute(tag, &tmp_attribute);
                 }
                 break;
@@ -144,10 +156,12 @@ tag_error_t parse_tag_from_string(const char* str, tag_t* tag)
         }
         if(state == PARSER_STATE_ERROR) {
             free(str_buffer);
+            clear_attribute(&tmp_attribute);
             return ERROR_PARSING_TAG;
         }
     }
 
     free(str_buffer);
+    clear_attribute(&tmp_attribute);
     return ERROR_OK;
 }

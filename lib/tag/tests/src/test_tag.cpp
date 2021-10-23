@@ -64,6 +64,7 @@ TEST(add_tag_attribute, add_tag_attribute_null_attribute) {
 TEST(set_tag_name, set_tag_name) {
   tag_t tag = {};
   tag_error_t result = set_tag_name(&tag, "name");
+  EXPECT_EQ(result, ERROR_OK);
   EXPECT_EQ(strcmp(tag.name, "name"), 0);
   clear_tag(&tag);
 }

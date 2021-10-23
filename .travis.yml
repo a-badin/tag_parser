@@ -6,25 +6,36 @@ install:
  - sudo apt-get update
  - sudo apt-get install --yes libgtest-dev
  - sudo apt-get install --yes gcovr
+
+env:
+ - BUILD=Debug
+ - BUILD=Release
+
 jobs:
- - stage: Build
-   script:
-    - cmake -B build -DCMAKE_BUILD_TYPE=Release
-    - make -C build
- - stage: Test
-   script:
-    - cmake -B build -DCMAKE_BUILD_TYPE=Release -DWITH_TESTS=1
-    - make -C build
-    - cd build && ctest --output-on-failure
- - stage: TestCoverage
-   script:
-    - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_COVERAGE=1
-    - make -C build all test
-    - curl -Os https://uploader.codecov.io/latest/linux/codecov
-    - chmod +x codecov
-    - ./codecov -f <(gcovr -x)
- - stage: Sanitaize
-   script:
-    - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_SANITIZERS=1
-    - make -C build
-    - cd build && ctest --output-on-failure
+ include:
+  - stage: Build
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=$BUILD
+     - make -C build
+  - stage: Test
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=$BUILD -DWITH_TESTS=1
+     - make -C build
+     - cd build && ctest --output-on-failure
+  - stage: TestCoverage
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_COVERAGE=1
+     - make -C build all test
+     - curl -Os https://uploader.codecov.io/latest/linux/codecov
+     - chmod +x codecov
+     - ./codecov -f <(gcovr -e '.*/tests/.*' -x)
+  - stage: Sanitaize
+    script:
+     - cmake -B build -DCMAKE_BUILD_TYPE=Debug -DWITH_SANITIZERS=1
+     - make -C build
+     - cd build && ctest --output-on-failure
+ exclude:
+  - env: BUILD=Release
+    stage: TestCoverage
+  - env: BUILD=Release
+    stage: Sanitaize

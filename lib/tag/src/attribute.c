@@ -16,7 +16,7 @@ void init_attribute(attribute_t* attribute)
 
 attribute_t* create_attribute()
 {
-    attribute_t* attribute = (attribute_t*)malloc(sizeof(attribute_t));
+    attribute_t* attribute = malloc(sizeof(attribute_t));
     init_attribute(attribute);
     return attribute;
 }

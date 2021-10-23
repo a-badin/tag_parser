@@ -29,7 +29,7 @@ void clear_tag(tag_t* tag)
     if(tag == NULL)
         return;
 
-    for(int i = 0; i < tag->attributes_count; ++i) {
+    for(unsigned long i = 0; i < tag->attributes_count; ++i) {
         clear_attribute(&tag->attributes[i]);
     }
     free(tag->attributes);
